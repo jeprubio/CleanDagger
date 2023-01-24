@@ -1,16 +1,23 @@
 package com.rumosoft.cleandagger
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.cleandagger.ui.theme.CleanDaggerTheme
 import com.rumosoft.domain.entities.Item
+import com.rumosoft.presentation.BlankActivity
 import com.rumosoft.presentation.MainViewModel
 import com.rumosoft.presentation.state.MainScreenState
 import com.rumosoft.presentation.state.MainScreenState.Data
@@ -43,7 +51,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen(uiState)
+                    Scaffold(
+                        floatingActionButton = {
+                            FloatingActionButton(onClick = {
+                                Intent(this, BlankActivity::class.java).also {
+                                    startActivity(it)
+                                }
+                            }) {
+                                Icon(Icons.Filled.Add, "")
+                            }
+                        }
+                    ) { paddingValues ->
+                        MainScreen(uiState, modifier = Modifier.padding(paddingValues))
+                    }
                 }
             }
         }
@@ -51,7 +71,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(uiState: MainScreenState) {
+fun MainScreen(uiState: MainScreenState, modifier: Modifier = Modifier) {
     when (uiState) {
         Loading -> Loading()
         is Data -> DisplayData(uiState.data)

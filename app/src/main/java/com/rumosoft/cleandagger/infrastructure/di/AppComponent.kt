@@ -6,13 +6,12 @@ import com.rumosoft.data.infrastructure.di.DataComponent
 import com.rumosoft.data.infrastructure.di.DataModule
 import com.rumosoft.domain.infrastructure.di.DomainComponent
 import com.rumosoft.domain.infrastructure.di.DomainModule
-import com.rumosoft.presentation.infrastructure.PresentationComponent
-import com.rumosoft.presentation.infrastructure.PresentationModule
+import com.rumosoft.presentation.infrastructure.PresentationSubcomponent
 import dagger.Component
 
-@Component(modules = [DomainModule::class, DataModule::class, PresentationModule::class])
+@Component(modules = [DomainModule::class, DataModule::class])
 interface AppComponent {
-    fun presentationComponent(): PresentationComponent
+    fun presentationComponent(): PresentationSubcomponent.Builder
     fun domainComponent(): DomainComponent
     fun dataComponent(): DataComponent
 
